@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using MetaFrm.Control;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
@@ -7,8 +8,13 @@ namespace MetaFrm.Service
     /// <summary>
     /// RabbitMQConsumer
     /// </summary>
-    public class RabbitMQConsumer : ICore, IDisposable
+    public class RabbitMQConsumer : IAction, IDisposable
     {
+        /// <summary>
+        /// Action event Handler입니다.
+        /// </summary>
+        public event MetaFrmEventHandler? Action;
+
         private string ConnectionString { get; set; }
         private string QueueName { get; set; }
 
@@ -22,6 +28,12 @@ namespace MetaFrm.Service
         {
             this.ConnectionString = connectionString;
             this.QueueName = queueName;
+
+            if(this.ConnectionString.IsNullOrEmpty())
+                this.ConnectionString = this.GetAttribute("ConnectionString");
+
+            if (this.QueueName.IsNullOrEmpty())
+                this.QueueName = this.GetAttribute("QueueName");
 
             this.Init();
         }
@@ -52,8 +64,11 @@ namespace MetaFrm.Service
             var body = e.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
 
-            ((IServiceString?)this.CreateInstance("BrokerService"))?.Request(message);
+            if (!this.GetAttribute("BrokerService").IsNullOrEmpty())
+                ((IServiceString?)this.CreateInstance("BrokerService"))?.Request(message);
             //((IServiceString?)new MetaFrm.Service.BrokerService())?.Request(message);
+
+            this.Action?.Invoke(this, new() { Action = "Consumer_Received", Value = message });
         }
         private void Close()
         {
