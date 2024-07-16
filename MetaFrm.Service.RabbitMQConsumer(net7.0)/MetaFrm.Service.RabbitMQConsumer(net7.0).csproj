@@ -10,7 +10,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>MetaFrm.Service.RabbitMQConsumer.net7.0</PackageId>
     <Title>Meta Framework Service RabbitMQConsumer</Title>
-    <Version>7.0.3.8</Version>
+    <Version>7.0.3.17</Version>
     <Authors>dsun</Authors>
     <Company>Meta Framework</Company>
     <Product>Meta Framework Service RabbitMQConsumer</Product>
@@ -31,7 +31,7 @@
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MetaFrm.Core.net7.0" Version="7.0.3.8" />
+    <PackageReference Include="MetaFrm.Core.net7.0" Version="7.0.3.17" />
     <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
   </ItemGroup>
   <ItemGroup>
