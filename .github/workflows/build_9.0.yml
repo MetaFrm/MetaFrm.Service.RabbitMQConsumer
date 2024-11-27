@@ -1,4 +1,4 @@
-name: build 8.0
+name: build 9.0
 
 on:
   push:
@@ -6,17 +6,17 @@ on:
   pull_request:
     branches: [ "master" ]
 env:
-  DLL_ID: ${{secrets.DLL_ID_8}} # NET버전
+  DLL_ID: ${{secrets.DLL_ID_9}} # NET버전
   UPLOAD_MODURE: "Y"
   PUSH_NUGET: "N"
   PASSWORD: ${{secrets.PASSWORD}}
 
 jobs:
-  build8:
+  build9:
     runs-on: ubuntu-latest
     env:
-      DLL_PATH: "${{vars.NAMESPACE}}(net8.0)/bin/Release/net8.0/${{vars.NAMESPACE}}.dll" # NET버전
-      PROJECT_PATH: "${{vars.NAMESPACE}}(net8.0)" # NET버전
+      DLL_PATH: "${{vars.NAMESPACE}}(net9.0)/bin/Release/net9.0/${{vars.NAMESPACE}}.dll" # NET버전
+      PROJECT_PATH: "${{vars.NAMESPACE}}(net9.0)" # NET버전
       METAFRM_UPLOADMODULE_URL: "https://download.metafrm.net/github/MetaFrameworkManagementSystemUploadModule8.0.zip" # NET버전
       METAFRM_UPLOADMODULE_ZIP: "temp/MetaFrameworkManagementSystemUploadModule8.0.zip" # NET버전
       METAFRM_UPLOADMODULE_FILE: "temp/MetaFrameworkManagementSystemUploadModule.dll"
@@ -27,7 +27,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x # NET버전
+        dotnet-version: 9.0.x # NET버전
 
     - name: Setup NuGet
       if: runner.os != 'Windows'
