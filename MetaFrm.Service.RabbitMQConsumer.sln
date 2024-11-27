@@ -7,9 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{4532
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{22B15BE9-F62A-43C0-83C6-CD024B76704A}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build_6.0.yml = .github\workflows\build_6.0.yml
-		.github\workflows\build_7.0.yml = .github\workflows\build_7.0.yml
 		.github\workflows\build_8.0.yml = .github\workflows\build_8.0.yml
+		.github\workflows\build_9.0.yml = .github\workflows\build_9.0.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루션 항목", "{B9C65C5D-11E8-41BE-9905-9D4396DFF062}"
@@ -24,11 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8FE1BBB7-857
 		src\RabbitMQConsumer.cs = src\RabbitMQConsumer.cs
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaFrm.Service.RabbitMQConsumer(net6.0)", "MetaFrm.Service.RabbitMQConsumer(net6.0)\MetaFrm.Service.RabbitMQConsumer(net6.0).csproj", "{289AE66B-EDD3-44DE-90FB-5F2A96C1E48C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaFrm.Service.RabbitMQConsumer(net7.0)", "MetaFrm.Service.RabbitMQConsumer(net7.0)\MetaFrm.Service.RabbitMQConsumer(net7.0).csproj", "{675B0CB5-2281-4326-8AF2-6DB32FB70C93}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaFrm.Service.RabbitMQConsumer(net8.0)", "MetaFrm.Service.RabbitMQConsumer(net8.0)\MetaFrm.Service.RabbitMQConsumer(net8.0).csproj", "{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaFrm.Service.RabbitMQConsumer(net9.0)", "MetaFrm.Service.RabbitMQConsumer(net9.0)\MetaFrm.Service.RabbitMQConsumer(net9.0).csproj", "{0C13A05F-9932-4451-8896-B101B754B312}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,18 +33,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{289AE66B-EDD3-44DE-90FB-5F2A96C1E48C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{289AE66B-EDD3-44DE-90FB-5F2A96C1E48C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{289AE66B-EDD3-44DE-90FB-5F2A96C1E48C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{289AE66B-EDD3-44DE-90FB-5F2A96C1E48C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{675B0CB5-2281-4326-8AF2-6DB32FB70C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{675B0CB5-2281-4326-8AF2-6DB32FB70C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{675B0CB5-2281-4326-8AF2-6DB32FB70C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{675B0CB5-2281-4326-8AF2-6DB32FB70C93}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C13A05F-9932-4451-8896-B101B754B312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C13A05F-9932-4451-8896-B101B754B312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C13A05F-9932-4451-8896-B101B754B312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C13A05F-9932-4451-8896-B101B754B312}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
