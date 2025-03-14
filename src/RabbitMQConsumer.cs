@@ -35,12 +35,12 @@ namespace MetaFrm.Service
             if (this.QueueName.IsNullOrEmpty())
                 this.QueueName = this.GetAttribute("QueueName");
 
-            this.Init();
+            Task.Run(() => this.Init());
         }
 
         private async Task Init()
         {
-            await this.Close();
+            this.Close();
 
             if (string.IsNullOrEmpty(this.ConnectionString))
                 return;
@@ -70,16 +70,16 @@ namespace MetaFrm.Service
             await this._channel.BasicConsumeAsync(queue: this.QueueName, autoAck: true, consumer: consumer);
         }
 
-        private async Task Close()
+        private void Close()
         {
             if (this._channel != null && this._channel.IsOpen)
             {
-                await this._channel.CloseAsync();
+                this._channel.CloseAsync();
                 this._channel = null;
             }
             if (this._connection != null && this._connection.IsOpen)
             {
-                await this._connection.CloseAsync();
+                this._connection.CloseAsync();
                 this._connection = null;
             }
         }
