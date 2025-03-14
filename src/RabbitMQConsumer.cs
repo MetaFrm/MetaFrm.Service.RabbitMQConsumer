@@ -19,7 +19,7 @@ namespace MetaFrm.Service
         private string QueueName { get; set; }
 
         private IConnection? _connection;
-        private IModel? _model;
+        private IChannel? _channel;
 
         /// <summary>
         /// RabbitMQConsumer
@@ -38,49 +38,49 @@ namespace MetaFrm.Service
             this.Init();
         }
 
-        private void Init()
+        private async Task Init()
         {
-            this.Close();
+            await this.Close();
 
             if (string.IsNullOrEmpty(this.ConnectionString))
                 return;
 
-            this._connection = new ConnectionFactory
+            this._connection = await new ConnectionFactory
             {
                 Uri = new(this.ConnectionString)
-            }.CreateConnection();
+            }.CreateConnectionAsync();
 
-            this._model = _connection.CreateModel();
-            this._model.QueueDeclare(queue: this.QueueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            this._channel = await _connection.CreateChannelAsync();
+            await this._channel.QueueDeclareAsync(queue: this.QueueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-            var consumer = new EventingBasicConsumer(this._model);
-            consumer.Received += Consumer_Received;
-
-            this._model.BasicConsume(queue: this.QueueName, autoAck: true, consumer: consumer);
-        }
-
-        private void Consumer_Received(object? sender, BasicDeliverEventArgs e)
-        {
-            var body = e.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-
-            if (!this.GetAttribute("BrokerService").IsNullOrEmpty())
-                ((IServiceString?)this.CreateInstance("BrokerService"))?.Request(message);
-            //((IServiceString?)new MetaFrm.Service.BrokerService())?.Request(message);
-
-            this.Action?.Invoke(this, new() { Action = "Consumer_Received", Value = message });
-        }
-        private void Close()
-        {
-            if (_model != null && _model.IsOpen)
+            var consumer = new AsyncEventingBasicConsumer(this._channel);
+            consumer.ReceivedAsync += (model, e) =>
             {
-                _model.Close();
-                _model = null;
+                var body = e.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+
+                if (!this.GetAttribute("BrokerService").IsNullOrEmpty())
+                    ((IServiceString?)this.CreateInstance("BrokerService"))?.Request(message);
+                //((IServiceString?)new MetaFrm.Service.BrokerService())?.Request(message);
+
+                this.Action?.Invoke(this, new() { Action = "Consumer_Received", Value = message });
+                return Task.CompletedTask;
+            };
+
+            await this._channel.BasicConsumeAsync(queue: this.QueueName, autoAck: true, consumer: consumer);
+        }
+
+        private async Task Close()
+        {
+            if (this._channel != null && this._channel.IsOpen)
+            {
+                await this._channel.CloseAsync();
+                this._channel = null;
             }
-            if (_connection != null && _connection.IsOpen)
+            if (this._connection != null && this._connection.IsOpen)
             {
-                _connection.Close();
-                _connection = null;
+                await this._connection.CloseAsync();
+                this._connection = null;
             }
         }
 
