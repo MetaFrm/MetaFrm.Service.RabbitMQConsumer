@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11205.157 d18.0
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{45324ECC-1D72-45C6-A49C-D0BD91327EA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{22B15BE9-F62A-43C0-83C6-CD024B76704A}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build_10.0.yml = .github\workflows\build_10.0.yml
-		.github\workflows\build_8.0.yml = .github\workflows\build_8.0.yml
-		.github\workflows\build_9.0.yml = .github\workflows\build_9.0.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루션 항목", "{B9C65C5D-11E8-41BE-9905-9D4396DFF062}"
@@ -24,10 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8FE1BBB7-857
 		src\RabbitMQConsumer.cs = src\RabbitMQConsumer.cs
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaFrm.Service.RabbitMQConsumer(net8.0)", "MetaFrm.Service.RabbitMQConsumer(net8.0)\MetaFrm.Service.RabbitMQConsumer(net8.0).csproj", "{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaFrm.Service.RabbitMQConsumer(net9.0)", "MetaFrm.Service.RabbitMQConsumer(net9.0)\MetaFrm.Service.RabbitMQConsumer(net9.0).csproj", "{0C13A05F-9932-4451-8896-B101B754B312}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaFrm.Service.RabbitMQConsumer(net10.0)", "MetaFrm.Service.RabbitMQConsumer(net10.0)\MetaFrm.Service.RabbitMQConsumer(net10.0).csproj", "{8CF11776-08B8-47C4-A871-D1452C1D7E7C}"
 EndProject
 Global
@@ -36,14 +30,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A65ABE2F-8654-4B3D-BA14-A59B792F6D04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C13A05F-9932-4451-8896-B101B754B312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C13A05F-9932-4451-8896-B101B754B312}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C13A05F-9932-4451-8896-B101B754B312}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C13A05F-9932-4451-8896-B101B754B312}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8CF11776-08B8-47C4-A871-D1452C1D7E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8CF11776-08B8-47C4-A871-D1452C1D7E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CF11776-08B8-47C4-A871-D1452C1D7E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
