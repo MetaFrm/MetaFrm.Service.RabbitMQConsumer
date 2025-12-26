@@ -1,4 +1,5 @@
 ﻿using MetaFrm.Control;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -21,6 +22,8 @@ namespace MetaFrm.Service
         private IConnection? _connection;
         private IChannel? _channel;
 
+        private readonly IServiceString? _brokerService;
+
         /// <summary>
         /// RabbitMQConsumer
         /// </summary>
@@ -35,6 +38,10 @@ namespace MetaFrm.Service
             if (this.QueueName.IsNullOrEmpty())
                 this.QueueName = this.GetAttribute("QueueName");
 
+            if (!this.GetAttribute("BrokerService").IsNullOrEmpty())
+                this._brokerService = (IServiceString?)this.CreateInstance("BrokerService");
+            //this._brokerService = ((IServiceString?)new MetaFrm.Service.BrokerService());
+
             Task.Run(() => this.Init());
         }
 
@@ -47,27 +54,41 @@ namespace MetaFrm.Service
 
             this._connection = await new ConnectionFactory
             {
-                Uri = new(this.ConnectionString)
+                Uri = new(this.ConnectionString),
+                AutomaticRecoveryEnabled = true,
+                NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
             }.CreateConnectionAsync();
 
             this._channel = await _connection.CreateChannelAsync();
-            await this._channel.QueueDeclareAsync(queue: this.QueueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            
+            await this._channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);//Prefetch 설정(Consumer 과부하 방지)
+            await this._channel.QueueDeclareAsync(queue: this.QueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(this._channel);
-            consumer.ReceivedAsync += (model, e) =>
+            consumer.ReceivedAsync += async (model, e) =>
             {
-                var body = e.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
+                try
+                {
+                    var message = Encoding.UTF8.GetString(e.Body.ToArray());
 
-                if (!this.GetAttribute("BrokerService").IsNullOrEmpty())
-                    ((IServiceString?)this.CreateInstance("BrokerService"))?.Request(message);
-                //((IServiceString?)new MetaFrm.Service.BrokerService())?.Request(message);
+                   this._brokerService?.Request(message);
 
-                this.Action?.Invoke(this, new() { Action = "Consumer_Received", Value = message });
-                return Task.CompletedTask;
+                    this.Action?.Invoke(this, new() { Action = "Consumer_Received", Value = message });
+
+                    //처리 성공 → ACK
+                    await this._channel.BasicAckAsync(deliveryTag: e.DeliveryTag, multiple: false);
+                }
+                catch (Exception exception)
+                {
+                    if (Factory.Logger.IsEnabled(LogLevel.Error))
+                        Factory.Logger.LogError(exception, "Error : {message}", e.Body);
+
+                    //처리 실패 → NACK(재큐잉)
+                    await this._channel!.BasicNackAsync(deliveryTag: e.DeliveryTag, multiple: false, requeue: false);
+                }
             };
 
-            await this._channel.BasicConsumeAsync(queue: this.QueueName, autoAck: true, consumer: consumer);
+            await this._channel.BasicConsumeAsync(queue: this.QueueName, autoAck: false, consumer: consumer);
         }
 
         private void Close()
