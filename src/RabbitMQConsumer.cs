@@ -62,7 +62,7 @@ namespace MetaFrm.Service
             this._channel = await _connection.CreateChannelAsync();
             
             await this._channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);//Prefetch 설정(Consumer 과부하 방지)
-            await this._channel.QueueDeclareAsync(queue: this.QueueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            await this._channel.QueueDeclareAsync(queue: this.QueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(this._channel);
             consumer.ReceivedAsync += async (model, e) =>
