@@ -32,13 +32,13 @@ namespace MetaFrm.Service
             this.ConnectionString = connectionString;
             this.QueueName = queueName;
 
-            if(this.ConnectionString.IsNullOrEmpty())
+            if(string.IsNullOrEmpty(this.ConnectionString))
                 this.ConnectionString = this.GetAttribute("ConnectionString");
 
-            if (this.QueueName.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(this.QueueName))
                 this.QueueName = this.GetAttribute("QueueName");
 
-            if (!this.GetAttribute("BrokerService").IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(this.GetAttribute("BrokerService")))
                 this._brokerService = (IServiceString?)this.CreateInstance("BrokerService");
             //this._brokerService = ((IServiceString?)new MetaFrm.Service.BrokerService());
 
