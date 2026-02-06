@@ -80,8 +80,7 @@ namespace MetaFrm.Service
                 }
                 catch (Exception exception)
                 {
-                    if (Factory.Logger.IsEnabled(LogLevel.Error))
-                        Factory.Logger.LogError(exception, "Error : {message}", e.Body);
+                    Factory.Logger.Error(exception, "Error : {0}", e.Body);
 
                     //처리 실패 → NACK(재큐잉)
                     await this._channel!.BasicNackAsync(deliveryTag: e.DeliveryTag, multiple: false, requeue: false);
